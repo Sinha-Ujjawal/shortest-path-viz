@@ -2,9 +2,9 @@ module MyCss exposing
     ( StyledElement
     , styledGrid
     , styledNode
-    , withBackgroundBackgroundColor
     , withBackgroundBlack
     , withBackgroundBlue
+    , withBackgroundColor
     , withBackgroundGreen
     , withBackgroundRed
     , withBackgroundWhite
@@ -58,31 +58,31 @@ styledNode =
     styled Html.div gridItem
 
 
-withBackgroundBackgroundColor : Css.Color -> StyledElement msg -> StyledElement msg
-withBackgroundBackgroundColor color selm =
+withBackgroundColor : Css.Color -> StyledElement msg -> StyledElement msg
+withBackgroundColor color selm =
     styled selm [ Css.backgroundColor color ]
 
 
 withBackgroundBlack : StyledElement msg -> StyledElement msg
 withBackgroundBlack =
-    withBackgroundBackgroundColor (Css.rgb 0 0 0)
+    withBackgroundColor (Css.rgb 0 0 0)
 
 
 withBackgroundWhite : StyledElement msg -> StyledElement msg
 withBackgroundWhite =
-    withBackgroundBackgroundColor (Css.rgb 255 255 255)
+    withBackgroundColor (Css.rgb 255 255 255)
 
 
 withBackgroundRed : StyledElement msg -> StyledElement msg
 withBackgroundRed =
-    withBackgroundBackgroundColor (Css.rgb 255 0 0)
+    withBackgroundColor (Css.rgb 255 0 0)
 
 
 withBackgroundGreen : StyledElement msg -> StyledElement msg
 withBackgroundGreen =
-    withBackgroundBackgroundColor (Css.rgb 0 255 0)
+    withBackgroundColor (Css.rgb 0 255 0)
 
 
 withBackgroundBlue : StyledElement msg -> StyledElement msg
 withBackgroundBlue =
-    withBackgroundBackgroundColor (Css.rgb 0 0 255)
+    withBackgroundColor (Css.rgb 0 0 255)

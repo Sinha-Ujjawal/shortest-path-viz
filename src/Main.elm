@@ -1,5 +1,6 @@
 module Main exposing (main)
 
+import BFS
 import Browser
 import Css
 import Html.Styled as Html exposing (Html)
@@ -37,6 +38,7 @@ type alias Model =
     { start : Maybe ( Int, Int )
     , end : Maybe ( Int, Int )
     , obstacles : Set ( Int, Int )
+    , path : Set ( Int, Int )
     , clickButtonType : ClickButtonType
     , width : Int
     , height : Int
@@ -46,7 +48,8 @@ type alias Model =
 type Msg
     = NoOp
     | SwitchClickButtonType ClickButtonType
-    | ApplyClickButtonTypeOnCell Int Int
+    | ApplyClickButtonTypeOnCell ( Int, Int )
+    | ComputePath
     | Reset
 
 
@@ -55,6 +58,7 @@ initModel width height =
     { start = Nothing
     , end = Nothing
     , obstacles = Set.empty
+    , path = Set.empty
     , clickButtonType = ST Start
     , width = width
     , height = height
@@ -81,6 +85,11 @@ obstacleCell attrs =
     MyCss.styledNode attrs [ Html.text (symbolTypeToString Obstacle) ]
 
 
+pathCell : List (Html.Attribute msg) -> Html msg
+pathCell attrs =
+    MyCss.withBackgroundBlack MyCss.styledNode attrs []
+
+
 drawGrid : Model -> Html Msg
 drawGrid model =
     let
@@ -102,10 +111,13 @@ drawGrid model =
                     else if Set.member ( rowId, colId ) model.obstacles then
                         obstacleCell
 
+                    else if Set.member ( rowId, colId ) model.path then
+                        pathCell
+
                     else
                         emptyCell
             in
-            cell [ Events.onClick (ApplyClickButtonTypeOnCell rowId colId) ]
+            cell [ Events.onClick (ApplyClickButtonTypeOnCell ( rowId, colId )) ]
 
         elements =
             Utils.cartesianProduct rowIds colIds
@@ -171,12 +183,13 @@ view model =
             , drawDeleteButton
             ]
         , printCurrentClickButtonTypeMessage model
-        , drawButton "Reset" Reset
+        , Html.div [] [ drawButton "Compute Path" ComputePath ]
+        , Html.div [] [ drawButton "Reset" Reset ]
         ]
 
 
-symbolTypeAtPosition : Model -> Int -> Int -> Maybe SybmolType
-symbolTypeAtPosition model rowId colId =
+symbolTypeAtPosition : Model -> ( Int, Int ) -> Maybe SybmolType
+symbolTypeAtPosition model ( rowId, colId ) =
     if Just ( rowId, colId ) == model.start then
         Just Start
 
@@ -190,38 +203,69 @@ symbolTypeAtPosition model rowId colId =
         Nothing
 
 
-applyClickButtonTypeOnCell : Int -> Int -> Model -> Model
-applyClickButtonTypeOnCell rowId colId model =
-    case symbolTypeAtPosition model rowId colId of
-        Just st ->
-            case model.clickButtonType of
-                Delete ->
-                    case st of
-                        Start ->
-                            { model | start = Nothing }
+applyClickButtonTypeOnCell : ( Int, Int ) -> Model -> Model
+applyClickButtonTypeOnCell ( rowId, colId ) model =
+    let
+        modelWithButtonApplied =
+            case symbolTypeAtPosition model ( rowId, colId ) of
+                Just st ->
+                    case model.clickButtonType of
+                        Delete ->
+                            case st of
+                                Start ->
+                                    { model | start = Nothing }
 
-                        End ->
-                            { model | end = Nothing }
+                                End ->
+                                    { model | end = Nothing }
 
-                        Obstacle ->
-                            { model | obstacles = Set.remove ( rowId, colId ) model.obstacles }
+                                Obstacle ->
+                                    { model | obstacles = Set.remove ( rowId, colId ) model.obstacles }
 
-                _ ->
-                    model
+                        _ ->
+                            model
 
-        Nothing ->
-            case model.clickButtonType of
-                ST Start ->
-                    { model | start = Just ( rowId, colId ) }
+                Nothing ->
+                    case model.clickButtonType of
+                        ST Start ->
+                            { model | start = Just ( rowId, colId ) }
 
-                ST End ->
-                    { model | end = Just ( rowId, colId ) }
+                        ST End ->
+                            { model | end = Just ( rowId, colId ) }
 
-                ST Obstacle ->
-                    { model | obstacles = Set.insert ( rowId, colId ) model.obstacles }
+                        ST Obstacle ->
+                            { model | obstacles = Set.insert ( rowId, colId ) model.obstacles }
 
-                _ ->
-                    model
+                        _ ->
+                            model
+    in
+    { modelWithButtonApplied | path = Set.empty }
+
+
+validCell : Model -> ( Int, Int ) -> Bool
+validCell model ( rowId, colId ) =
+    rowId >= 1 && rowId <= model.height && colId >= 1 && colId <= model.width
+
+
+neighbors : ( Int, Int ) -> Set ( Int, Int )
+neighbors ( x, y ) =
+    Set.fromList [ ( x + 1, y ), ( x - 1, y ), ( x, y - 1 ), ( x, y + 1 ) ]
+
+
+validNeighbors : Model -> ( Int, Int ) -> Set ( Int, Int )
+validNeighbors model loc =
+    neighbors loc
+        |> Set.filter (validCell model)
+        |> Set.filter (\pos -> not (Set.member pos model.obstacles))
+
+
+withPathComputed : Model -> Model
+withPathComputed model =
+    case ( model.start, model.end ) of
+        ( Just s, Just e ) ->
+            { model | path = Set.fromList (BFS.shortestPath s e (validNeighbors model)) }
+
+        _ ->
+            model
 
 
 update : Msg -> Model -> Model
@@ -236,8 +280,11 @@ update msg model =
         SwitchClickButtonType buttonType ->
             { model | clickButtonType = buttonType }
 
-        ApplyClickButtonTypeOnCell rowId colId ->
-            applyClickButtonTypeOnCell rowId colId model
+        ApplyClickButtonTypeOnCell pos ->
+            applyClickButtonTypeOnCell pos model
+
+        ComputePath ->
+            withPathComputed model
 
 
 main : Program () Model Msg
