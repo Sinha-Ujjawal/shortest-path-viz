@@ -28,11 +28,16 @@ symbolTypeToString cb =
             "🚧"
 
 
+type ClickButtonType
+    = ST SybmolType
+    | Delete
+
+
 type alias Model =
     { start : Maybe ( Int, Int )
     , end : Maybe ( Int, Int )
     , obstacles : Set ( Int, Int )
-    , clickButtonType : SybmolType
+    , clickButtonType : ClickButtonType
     , width : Int
     , height : Int
     }
@@ -40,8 +45,8 @@ type alias Model =
 
 type Msg
     = NoOp
-    | SwitchClickButtonType SybmolType
-    | Mark Int Int
+    | SwitchClickButtonType ClickButtonType
+    | ApplyClickButtonTypeOnCell Int Int
     | Reset
 
 
@@ -50,7 +55,7 @@ initModel width height =
     { start = Nothing
     , end = Nothing
     , obstacles = Set.empty
-    , clickButtonType = Start
+    , clickButtonType = ST Start
     , width = width
     , height = height
     }
@@ -100,7 +105,7 @@ drawGrid model =
                     else
                         emptyCell
             in
-            cell [ Events.onClick (Mark rowId colId) ]
+            cell [ Events.onClick (ApplyClickButtonTypeOnCell rowId colId) ]
 
         elements =
             Utils.cartesianProduct rowIds colIds
@@ -119,22 +124,36 @@ drawButton buttonText msg =
 
 drawStartButton : Html Msg
 drawStartButton =
-    drawButton (symbolTypeToString Start) (SwitchClickButtonType Start)
+    drawButton (symbolTypeToString Start) (SwitchClickButtonType (ST Start))
 
 
 drawEndButton : Html Msg
 drawEndButton =
-    drawButton (symbolTypeToString End) (SwitchClickButtonType End)
+    drawButton (symbolTypeToString End) (SwitchClickButtonType (ST End))
 
 
 drawObstacleButton : Html Msg
 drawObstacleButton =
-    drawButton (symbolTypeToString Obstacle) (SwitchClickButtonType Obstacle)
+    drawButton (symbolTypeToString Obstacle) (SwitchClickButtonType (ST Obstacle))
 
 
-printCurrentClickButtonType : Model -> Html Msg
-printCurrentClickButtonType model =
-    Html.text ("Click on grid cell to put " ++ symbolTypeToString model.clickButtonType)
+drawDeleteButton : Html Msg
+drawDeleteButton =
+    drawButton "x" (SwitchClickButtonType Delete)
+
+
+printCurrentClickButtonTypeMessage : Model -> Html Msg
+printCurrentClickButtonTypeMessage model =
+    Html.div []
+        [ Html.text
+            (case model.clickButtonType of
+                ST st ->
+                    "Click on grid cell to put " ++ symbolTypeToString st
+
+                Delete ->
+                    "Click on grid cell to clear the symbol"
+            )
+        ]
 
 
 view : Model -> Html Msg
@@ -149,14 +168,15 @@ view model =
             [ drawStartButton
             , drawEndButton
             , drawObstacleButton
+            , drawDeleteButton
             ]
-        , printCurrentClickButtonType model
+        , printCurrentClickButtonTypeMessage model
         , drawButton "Reset" Reset
         ]
 
 
-markType : Model -> Int -> Int -> Maybe SybmolType
-markType model rowId colId =
+symbolTypeAtPosition : Model -> Int -> Int -> Maybe SybmolType
+symbolTypeAtPosition model rowId colId =
     if Just ( rowId, colId ) == model.start then
         Just Start
 
@@ -170,26 +190,38 @@ markType model rowId colId =
         Nothing
 
 
-mark : Int -> Int -> Model -> Model
-mark rowId colId model =
-    let
-        mtype =
-            markType model rowId colId
-    in
-    case mtype of
-        Just _ ->
-            model
+applyClickButtonTypeOnCell : Int -> Int -> Model -> Model
+applyClickButtonTypeOnCell rowId colId model =
+    case symbolTypeAtPosition model rowId colId of
+        Just st ->
+            case model.clickButtonType of
+                Delete ->
+                    case st of
+                        Start ->
+                            { model | start = Nothing }
+
+                        End ->
+                            { model | end = Nothing }
+
+                        Obstacle ->
+                            { model | obstacles = Set.remove ( rowId, colId ) model.obstacles }
+
+                _ ->
+                    model
 
         Nothing ->
             case model.clickButtonType of
-                Start ->
+                ST Start ->
                     { model | start = Just ( rowId, colId ) }
 
-                End ->
+                ST End ->
                     { model | end = Just ( rowId, colId ) }
 
-                Obstacle ->
+                ST Obstacle ->
                     { model | obstacles = Set.insert ( rowId, colId ) model.obstacles }
+
+                _ ->
+                    model
 
 
 update : Msg -> Model -> Model
@@ -204,8 +236,8 @@ update msg model =
         SwitchClickButtonType buttonType ->
             { model | clickButtonType = buttonType }
 
-        Mark rowId colId ->
-            mark rowId colId model
+        ApplyClickButtonTypeOnCell rowId colId ->
+            applyClickButtonTypeOnCell rowId colId model
 
 
 main : Program () Model Msg
