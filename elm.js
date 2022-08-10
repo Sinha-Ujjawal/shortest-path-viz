@@ -6635,13 +6635,27 @@ var $elm$core$Set$foldl = F3(
 			initialState,
 			dict);
 	});
+var $elm$core$Dict$isEmpty = function (dict) {
+	if (dict.$ === -2) {
+		return true;
+	} else {
+		return false;
+	}
+};
+var $elm$core$Set$isEmpty = function (_v0) {
+	var dict = _v0;
+	return $elm$core$Dict$isEmpty(dict);
+};
 var $elm$core$Basics$not = _Basics_not;
 var $elm$core$Dict$singleton = F2(
 	function (key, value) {
 		return A5($elm$core$Dict$RBNode_elm_builtin, 1, key, value, $elm$core$Dict$RBEmpty_elm_builtin, $elm$core$Dict$RBEmpty_elm_builtin);
 	});
-var $author$project$BFS$bfs = F2(
-	function (start, neighborFn) {
+var $elm$core$Set$singleton = function (key) {
+	return A2($elm$core$Dict$singleton, key, 0);
+};
+var $author$project$BFS$bfs = F3(
+	function (start, end, neighborFn) {
 		var go = F2(
 			function (frontier, parentMap) {
 				go:
@@ -6649,11 +6663,11 @@ var $author$project$BFS$bfs = F2(
 					var folder = F2(
 						function (u, xs) {
 							var folder2 = F2(
-								function (v, _v2) {
-									var oldf = _v2.a;
-									var oldfpm = _v2.b;
+								function (v, _v1) {
+									var oldf = _v1.a;
+									var oldfpm = _v1.b;
 									return _Utils_Tuple2(
-										A2($elm$core$List$cons, v, oldf),
+										A2($elm$core$Set$insert, v, oldf),
 										A3(
 											$elm$core$Dict$insert,
 											v,
@@ -6672,13 +6686,13 @@ var $author$project$BFS$bfs = F2(
 									neighborFn(u)));
 						});
 					var _v0 = A3(
-						$elm$core$List$foldl,
+						$elm$core$Set$foldl,
 						folder,
-						_Utils_Tuple2(_List_Nil, parentMap),
+						_Utils_Tuple2($elm$core$Set$empty, parentMap),
 						frontier);
 					var newFrontier = _v0.a;
 					var newParentMap = _v0.b;
-					if (!frontier.b) {
+					if ($elm$core$Set$isEmpty(frontier) || A2($elm$core$Set$member, end, frontier)) {
 						return parentMap;
 					} else {
 						var $temp$frontier = newFrontier,
@@ -6691,8 +6705,7 @@ var $author$project$BFS$bfs = F2(
 			});
 		return A2(
 			go,
-			_List_fromArray(
-				[start]),
+			$elm$core$Set$singleton(start),
 			A2($elm$core$Dict$singleton, start, $elm$core$Maybe$Nothing));
 	});
 var $author$project$BFS$constructPathFromParentMap = F2(
@@ -6724,7 +6737,7 @@ var $author$project$BFS$shortestPath = F3(
 	function (start, end, neighborFn) {
 		return A2(
 			$author$project$BFS$constructPathFromParentMap,
-			A2($author$project$BFS$bfs, start, neighborFn),
+			A3($author$project$BFS$bfs, start, end, neighborFn),
 			end);
 	});
 var $author$project$Main$neighbors = function (_v0) {
