@@ -784,11 +784,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.X.aC === region.N.aC)
+	if (region.X.aD === region.O.aD)
 	{
-		return 'on line ' + region.X.aC;
+		return 'on line ' + region.X.aD;
 	}
-	return 'on lines ' + region.X.aC + ' through ' + region.N.aC;
+	return 'on lines ' + region.X.aD + ' through ' + region.O.aD;
 }
 
 
@@ -1857,9 +1857,9 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.b4,
-		impl.ch,
-		impl.cf,
+		impl.b5,
+		impl.ci,
+		impl.cg,
 		function() { return function() {} }
 	);
 });
@@ -2720,8 +2720,8 @@ var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
 		H: func(record.H),
-		a8: record.a8,
-		a6: record.a6
+		a9: record.a9,
+		a7: record.a7
 	}
 });
 
@@ -2990,10 +2990,10 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 
 		var value = result.a;
 		var message = !tag ? value : tag < 3 ? value.a : value.H;
-		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.a8;
+		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.a9;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
-			(tag == 2 ? value.b : tag == 3 && value.a6) && event.preventDefault(),
+			(tag == 2 ? value.b : tag == 3 && value.a7) && event.preventDefault(),
 			eventNode
 		);
 		var tagger;
@@ -3943,11 +3943,11 @@ var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debug
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.b4,
-		impl.ch,
-		impl.cf,
+		impl.b5,
+		impl.ci,
+		impl.cg,
 		function(sendToApp, initialModel) {
-			var view = impl.cj;
+			var view = impl.ck;
 			/**/
 			var domNode = args['node'];
 			//*/
@@ -3979,12 +3979,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.b4,
-		impl.ch,
-		impl.cf,
+		impl.b5,
+		impl.ci,
+		impl.cg,
 		function(sendToApp, initialModel) {
-			var divertHrefToApp = impl.a7 && impl.a7(sendToApp)
-			var view = impl.cj;
+			var divertHrefToApp = impl.a8 && impl.a8(sendToApp)
+			var view = impl.ck;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
 			var currNode = _VirtualDom_virtualize(bodyNode);
@@ -3992,12 +3992,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 			{
 				_VirtualDom_divertHrefToApp = divertHrefToApp;
 				var doc = view(model);
-				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.bW);
+				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.bX);
 				var patches = _VirtualDom_diff(currNode, nextNode);
 				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
 				currNode = nextNode;
 				_VirtualDom_divertHrefToApp = 0;
-				(title !== doc.cg) && (_VirtualDom_doc.title = title = doc.cg);
+				(title !== doc.ch) && (_VirtualDom_doc.title = title = doc.ch);
 			});
 		}
 	);
@@ -4053,12 +4053,12 @@ function _Browser_makeAnimator(model, draw)
 
 function _Browser_application(impl)
 {
-	var onUrlChange = impl.b8;
-	var onUrlRequest = impl.b9;
+	var onUrlChange = impl.b9;
+	var onUrlRequest = impl.ca;
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
-		a7: function(sendToApp)
+		a8: function(sendToApp)
 		{
 			key.a = sendToApp;
 			_Browser_window.addEventListener('popstate', key);
@@ -4074,9 +4074,9 @@ function _Browser_application(impl)
 					var next = $elm$url$Url$fromString(href).a;
 					sendToApp(onUrlRequest(
 						(next
-							&& curr.bD === next.bD
-							&& curr.br === next.br
-							&& curr.bA.a === next.bA.a
+							&& curr.bE === next.bE
+							&& curr.bs === next.bs
+							&& curr.bB.a === next.bB.a
 						)
 							? $elm$browser$Browser$Internal(next)
 							: $elm$browser$Browser$External(href)
@@ -4084,13 +4084,13 @@ function _Browser_application(impl)
 				}
 			});
 		},
-		b4: function(flags)
+		b5: function(flags)
 		{
-			return A3(impl.b4, flags, _Browser_getUrl(), key);
+			return A3(impl.b5, flags, _Browser_getUrl(), key);
 		},
-		cj: impl.cj,
-		ch: impl.ch,
-		cf: impl.cf
+		ck: impl.ck,
+		ci: impl.ci,
+		cg: impl.cg
 	});
 }
 
@@ -4156,17 +4156,17 @@ var _Browser_decodeEvent = F2(function(decoder, event)
 function _Browser_visibilityInfo()
 {
 	return (typeof _VirtualDom_doc.hidden !== 'undefined')
-		? { b1: 'hidden', bX: 'visibilitychange' }
+		? { b2: 'hidden', bY: 'visibilitychange' }
 		:
 	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
-		? { b1: 'mozHidden', bX: 'mozvisibilitychange' }
+		? { b2: 'mozHidden', bY: 'mozvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.msHidden !== 'undefined')
-		? { b1: 'msHidden', bX: 'msvisibilitychange' }
+		? { b2: 'msHidden', bY: 'msvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
-		? { b1: 'webkitHidden', bX: 'webkitvisibilitychange' }
-		: { b1: 'hidden', bX: 'visibilitychange' };
+		? { b2: 'webkitHidden', bY: 'webkitvisibilitychange' }
+		: { b2: 'hidden', bY: 'visibilitychange' };
 }
 
 
@@ -4247,12 +4247,12 @@ var _Browser_call = F2(function(functionName, id)
 function _Browser_getViewport()
 {
 	return {
-		bI: _Browser_getScene(),
-		bP: {
-			bQ: _Browser_window.pageXOffset,
-			bR: _Browser_window.pageYOffset,
-			M: _Browser_doc.documentElement.clientWidth,
-			Q: _Browser_doc.documentElement.clientHeight
+		bJ: _Browser_getScene(),
+		bQ: {
+			bR: _Browser_window.pageXOffset,
+			bS: _Browser_window.pageYOffset,
+			N: _Browser_doc.documentElement.clientWidth,
+			R: _Browser_doc.documentElement.clientHeight
 		}
 	};
 }
@@ -4262,8 +4262,8 @@ function _Browser_getScene()
 	var body = _Browser_doc.body;
 	var elem = _Browser_doc.documentElement;
 	return {
-		M: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
-		Q: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
+		N: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
+		R: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
 	};
 }
 
@@ -4286,15 +4286,15 @@ function _Browser_getViewportOf(id)
 	return _Browser_withNode(id, function(node)
 	{
 		return {
-			bI: {
-				M: node.scrollWidth,
-				Q: node.scrollHeight
+			bJ: {
+				N: node.scrollWidth,
+				R: node.scrollHeight
 			},
-			bP: {
-				bQ: node.scrollLeft,
-				bR: node.scrollTop,
-				M: node.clientWidth,
-				Q: node.clientHeight
+			bQ: {
+				bR: node.scrollLeft,
+				bS: node.scrollTop,
+				N: node.clientWidth,
+				R: node.clientHeight
 			}
 		};
 	});
@@ -4324,18 +4324,18 @@ function _Browser_getElement(id)
 		var x = _Browser_window.pageXOffset;
 		var y = _Browser_window.pageYOffset;
 		return {
-			bI: _Browser_getScene(),
-			bP: {
-				bQ: x,
-				bR: y,
-				M: _Browser_doc.documentElement.clientWidth,
-				Q: _Browser_doc.documentElement.clientHeight
+			bJ: _Browser_getScene(),
+			bQ: {
+				bR: x,
+				bS: y,
+				N: _Browser_doc.documentElement.clientWidth,
+				R: _Browser_doc.documentElement.clientHeight
 			},
-			b$: {
-				bQ: x + rect.left,
-				bR: y + rect.top,
-				M: rect.width,
-				Q: rect.height
+			b0: {
+				bR: x + rect.left,
+				bS: y + rect.top,
+				N: rect.width,
+				R: rect.height
 			}
 		};
 	});
@@ -4412,6 +4412,7 @@ var $elm$core$Basics$composeR = F3(
 		return g(
 			f(x));
 	});
+var $elm$core$Basics$False = 1;
 var $elm$core$Maybe$Nothing = {$: 1};
 var $author$project$Main$ST = function (a) {
 	return {$: 0, a: a};
@@ -4427,13 +4428,14 @@ var $elm$core$Set$empty = $elm$core$Dict$empty;
 var $author$project$Main$initModel = F2(
 	function (width, height) {
 		return {
-			ad: $author$project$Main$ST(0),
-			N: $elm$core$Maybe$Nothing,
-			Q: height,
+			aa: false,
+			ae: $author$project$Main$ST(0),
+			O: $elm$core$Maybe$Nothing,
+			R: height,
 			z: $elm$core$Set$empty,
-			U: $elm$core$Set$empty,
+			J: $elm$core$Set$empty,
 			X: $elm$core$Maybe$Nothing,
-			M: width
+			N: width
 		};
 	});
 var $author$project$Main$minHeight = 10;
@@ -4539,7 +4541,6 @@ var $elm$core$Result$Ok = function (a) {
 var $elm$json$Json$Decode$OneOf = function (a) {
 	return {$: 2, a: a};
 };
-var $elm$core$Basics$False = 1;
 var $elm$core$Basics$add = _Basics_add;
 var $elm$core$Maybe$Just = function (a) {
 	return {$: 0, a: a};
@@ -4938,7 +4939,7 @@ var $elm$url$Url$Http = 0;
 var $elm$url$Url$Https = 1;
 var $elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {bq: fragment, br: host, U: path, bA: port_, bD: protocol, bE: query};
+		return {br: fragment, bs: host, J: path, bB: port_, bE: protocol, bF: query};
 	});
 var $elm$core$String$contains = _String_contains;
 var $elm$core$String$length = _String_length;
@@ -5223,25 +5224,25 @@ var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
 var $elm$browser$Browser$sandbox = function (impl) {
 	return _Browser_element(
 		{
-			b4: function (_v0) {
-				return _Utils_Tuple2(impl.b4, $elm$core$Platform$Cmd$none);
+			b5: function (_v0) {
+				return _Utils_Tuple2(impl.b5, $elm$core$Platform$Cmd$none);
 			},
-			cf: function (_v1) {
+			cg: function (_v1) {
 				return $elm$core$Platform$Sub$none;
 			},
-			ch: F2(
+			ci: F2(
 				function (msg, model) {
 					return _Utils_Tuple2(
-						A2(impl.ch, msg, model),
+						A2(impl.ci, msg, model),
 						$elm$core$Platform$Cmd$none);
 				}),
-			cj: impl.cj
+			ck: impl.ck
 		});
 };
 var $elm$core$String$cons = _String_cons;
 var $robinheghan$murmur3$Murmur3$HashData = F4(
 	function (shift, seed, hash, charsProcessed) {
-		return {ac: charsProcessed, aj: hash, W: seed, ao: shift};
+		return {ad: charsProcessed, ak: hash, W: seed, ap: shift};
 	});
 var $robinheghan$murmur3$Murmur3$c1 = 3432918353;
 var $robinheghan$murmur3$Murmur3$c2 = 461845907;
@@ -5260,14 +5261,14 @@ var $robinheghan$murmur3$Murmur3$rotlBy = F2(
 	});
 var $elm$core$Bitwise$xor = _Bitwise_xor;
 var $robinheghan$murmur3$Murmur3$finalize = function (data) {
-	var acc = (!(!data.aj)) ? (data.W ^ A2(
+	var acc = (!(!data.ak)) ? (data.W ^ A2(
 		$robinheghan$murmur3$Murmur3$multiplyBy,
 		$robinheghan$murmur3$Murmur3$c2,
 		A2(
 			$robinheghan$murmur3$Murmur3$rotlBy,
 			15,
-			A2($robinheghan$murmur3$Murmur3$multiplyBy, $robinheghan$murmur3$Murmur3$c1, data.aj)))) : data.W;
-	var h0 = acc ^ data.ac;
+			A2($robinheghan$murmur3$Murmur3$multiplyBy, $robinheghan$murmur3$Murmur3$c1, data.ak)))) : data.W;
+	var h0 = acc ^ data.ad;
 	var h1 = A2($robinheghan$murmur3$Murmur3$multiplyBy, 2246822507, h0 ^ (h0 >>> 16));
 	var h2 = A2($robinheghan$murmur3$Murmur3$multiplyBy, 3266489909, h1 ^ (h1 >>> 13));
 	return (h2 ^ (h2 >>> 16)) >>> 0;
@@ -5291,17 +5292,17 @@ var $robinheghan$murmur3$Murmur3$mix = F2(
 	});
 var $robinheghan$murmur3$Murmur3$hashFold = F2(
 	function (c, data) {
-		var res = data.aj | ((255 & $elm$core$Char$toCode(c)) << data.ao);
-		var _v0 = data.ao;
+		var res = data.ak | ((255 & $elm$core$Char$toCode(c)) << data.ap);
+		var _v0 = data.ap;
 		if (_v0 === 24) {
 			return {
-				ac: data.ac + 1,
-				aj: 0,
+				ad: data.ad + 1,
+				ak: 0,
 				W: A2($robinheghan$murmur3$Murmur3$mix, data.W, res),
-				ao: 0
+				ap: 0
 			};
 		} else {
-			return {ac: data.ac + 1, aj: res, W: data.W, ao: data.ao + 8};
+			return {ad: data.ad + 1, ak: res, W: data.W, ap: data.ap + 8};
 		}
 	});
 var $robinheghan$murmur3$Murmur3$hashString = F2(
@@ -6520,7 +6521,7 @@ var $author$project$Main$symbolTypeAtPosition = F2(
 			model.X) ? $elm$core$Maybe$Just(0) : (_Utils_eq(
 			$elm$core$Maybe$Just(
 				_Utils_Tuple2(rowId, colId)),
-			model.N) ? $elm$core$Maybe$Just(1) : (A2(
+			model.O) ? $elm$core$Maybe$Just(1) : (A2(
 			$elm$core$Set$member,
 			_Utils_Tuple2(rowId, colId),
 			model.z) ? $elm$core$Maybe$Just(2) : $elm$core$Maybe$Nothing));
@@ -6536,7 +6537,7 @@ var $author$project$Main$applyClickButtonTypeOnCell = F2(
 				_Utils_Tuple2(rowId, colId));
 			if (!_v1.$) {
 				var st = _v1.a;
-				var _v2 = model.ad;
+				var _v2 = model.ae;
 				if (_v2.$ === 1) {
 					switch (st) {
 						case 0:
@@ -6546,7 +6547,7 @@ var $author$project$Main$applyClickButtonTypeOnCell = F2(
 						case 1:
 							return _Utils_update(
 								model,
-								{N: $elm$core$Maybe$Nothing});
+								{O: $elm$core$Maybe$Nothing});
 						default:
 							return _Utils_update(
 								model,
@@ -6561,7 +6562,7 @@ var $author$project$Main$applyClickButtonTypeOnCell = F2(
 					return model;
 				}
 			} else {
-				var _v4 = model.ad;
+				var _v4 = model.ae;
 				if (!_v4.$) {
 					switch (_v4.a) {
 						case 0:
@@ -6577,7 +6578,7 @@ var $author$project$Main$applyClickButtonTypeOnCell = F2(
 							return _Utils_update(
 								model,
 								{
-									N: $elm$core$Maybe$Just(
+									O: $elm$core$Maybe$Just(
 										_Utils_Tuple2(rowId, colId))
 								});
 						default:
@@ -6598,8 +6599,9 @@ var $author$project$Main$applyClickButtonTypeOnCell = F2(
 		}();
 		return _Utils_update(
 			modelWithButtonApplied,
-			{U: $elm$core$Set$empty});
+			{J: $elm$core$Set$empty});
 	});
+var $elm$core$Basics$not = _Basics_not;
 var $elm$core$Set$fromList = function (list) {
 	return A3($elm$core$List$foldl, $elm$core$Set$insert, $elm$core$Set$empty, list);
 };
@@ -6648,7 +6650,6 @@ var $elm$core$Set$isEmpty = function (_v0) {
 	var dict = _v0;
 	return $elm$core$Dict$isEmpty(dict);
 };
-var $elm$core$Basics$not = _Basics_not;
 var $elm$core$Dict$singleton = F2(
 	function (key, value) {
 		return A5($elm$core$Dict$RBNode_elm_builtin, 1, key, value, $elm$core$Dict$RBEmpty_elm_builtin, $elm$core$Dict$RBEmpty_elm_builtin);
@@ -6742,7 +6743,73 @@ var $author$project$BFS$shortestPath = F3(
 			A3($author$project$BFS$bfs, start, end, neighborFn),
 			end);
 	});
-var $author$project$Main$neighbors = function (_v0) {
+var $elm$core$List$append = F2(
+	function (xs, ys) {
+		if (!ys.b) {
+			return xs;
+		} else {
+			return A3($elm$core$List$foldr, $elm$core$List$cons, ys, xs);
+		}
+	});
+var $elm$core$List$concat = function (lists) {
+	return A3($elm$core$List$foldr, $elm$core$List$append, _List_Nil, lists);
+};
+var $elm$core$List$concatMap = F2(
+	function (f, list) {
+		return $elm$core$List$concat(
+			A2($elm$core$List$map, f, list));
+	});
+var $author$project$Utils$cartesianProduct = F2(
+	function (aitems, bitems) {
+		return A2(
+			$elm$core$List$concatMap,
+			function (a) {
+				return A2(
+					$elm$core$List$map,
+					function (b) {
+						return _Utils_Tuple2(a, b);
+					},
+					bitems);
+			},
+			aitems);
+	});
+var $elm$core$List$filter = F2(
+	function (isGood, list) {
+		return A3(
+			$elm$core$List$foldr,
+			F2(
+				function (x, xs) {
+					return isGood(x) ? A2($elm$core$List$cons, x, xs) : xs;
+				}),
+			_List_Nil,
+			list);
+	});
+var $author$project$Main$neighborsWithDiagonal = function (_v0) {
+	var x = _v0.a;
+	var y = _v0.b;
+	return $elm$core$Set$fromList(
+		A2(
+			$elm$core$List$filter,
+			function (_v2) {
+				var nx = _v2.a;
+				var ny = _v2.b;
+				return (!_Utils_eq(nx, x)) || (!_Utils_eq(ny, y));
+			},
+			A2(
+				$elm$core$List$map,
+				function (_v1) {
+					var dx = _v1.a;
+					var dy = _v1.b;
+					return _Utils_Tuple2(x + dx, y + dy);
+				},
+				A2(
+					$author$project$Utils$cartesianProduct,
+					_List_fromArray(
+						[-1, 0, 1]),
+					_List_fromArray(
+						[-1, 0, 1])))));
+};
+var $author$project$Main$neighborsWithoutDiagonal = function (_v0) {
 	var x = _v0.a;
 	var y = _v0.b;
 	return $elm$core$Set$fromList(
@@ -6759,10 +6826,13 @@ var $author$project$Main$validCell = F2(
 	function (model, _v0) {
 		var rowId = _v0.a;
 		var colId = _v0.b;
-		return (rowId >= 1) && ((_Utils_cmp(rowId, model.Q) < 1) && ((colId >= 1) && (_Utils_cmp(colId, model.M) < 1)));
+		return (rowId >= 1) && ((_Utils_cmp(rowId, model.R) < 1) && ((colId >= 1) && (_Utils_cmp(colId, model.N) < 1)));
 	});
-var $author$project$Main$validNeighbors = F2(
-	function (model, loc) {
+var $author$project$Main$validNeighbors = function (model) {
+	var neighborFn = model.aa ? $author$project$Main$neighborsWithDiagonal : $author$project$Main$neighborsWithoutDiagonal;
+	return function (_v0) {
+		var x = _v0.a;
+		var y = _v0.b;
 		return A2(
 			$elm$core$Set$filter,
 			function (pos) {
@@ -6771,17 +6841,19 @@ var $author$project$Main$validNeighbors = F2(
 			A2(
 				$elm$core$Set$filter,
 				$author$project$Main$validCell(model),
-				$author$project$Main$neighbors(loc)));
-	});
+				neighborFn(
+					_Utils_Tuple2(x, y))));
+	};
+};
 var $author$project$Main$withPathComputed = function (model) {
-	var _v0 = _Utils_Tuple2(model.X, model.N);
+	var _v0 = _Utils_Tuple2(model.X, model.O);
 	if ((!_v0.a.$) && (!_v0.b.$)) {
 		var s = _v0.a.a;
 		var e = _v0.b.a;
 		return _Utils_update(
 			model,
 			{
-				U: $elm$core$Set$fromList(
+				J: $elm$core$Set$fromList(
 					A3(
 						$author$project$BFS$shortestPath,
 						s,
@@ -6798,12 +6870,12 @@ var $author$project$Main$update = F2(
 			case 0:
 				return model;
 			case 4:
-				return A2($author$project$Main$initModel, model.M, model.Q);
+				return A2($author$project$Main$initModel, model.N, model.R);
 			case 1:
 				var buttonType = msg.a;
 				return _Utils_update(
 					model,
-					{ad: buttonType});
+					{ae: buttonType});
 			case 2:
 				var pos = msg.a;
 				return A2($author$project$Main$applyClickButtonTypeOnCell, pos, model);
@@ -6813,12 +6885,16 @@ var $author$project$Main$update = F2(
 				var width = msg.a;
 				return _Utils_update(
 					model,
-					{U: $elm$core$Set$empty, M: width});
-			default:
+					{J: $elm$core$Set$empty, N: width});
+			case 6:
 				var height = msg.a;
 				return _Utils_update(
 					model,
-					{Q: height, U: $elm$core$Set$empty});
+					{R: height, J: $elm$core$Set$empty});
+			default:
+				return _Utils_update(
+					model,
+					{aa: !model.aa, J: $elm$core$Set$empty});
 		}
 	});
 var $author$project$Main$ComputePath = {$: 3};
@@ -6829,6 +6905,28 @@ var $author$project$Main$SetHeight = function (a) {
 var $author$project$Main$SetWidth = function (a) {
 	return {$: 5, a: a};
 };
+var $author$project$Main$ToogleDiagonal = {$: 7};
+var $elm$json$Json$Encode$bool = _Json_wrap;
+var $rtfeldman$elm_css$VirtualDom$Styled$Attribute = F3(
+	function (a, b, c) {
+		return {$: 0, a: a, b: b, c: c};
+	});
+var $rtfeldman$elm_css$VirtualDom$Styled$property = F2(
+	function (key, value) {
+		return A3(
+			$rtfeldman$elm_css$VirtualDom$Styled$Attribute,
+			A2($elm$virtual_dom$VirtualDom$property, key, value),
+			false,
+			'');
+	});
+var $rtfeldman$elm_css$Html$Styled$Attributes$boolProperty = F2(
+	function (key, bool) {
+		return A2(
+			$rtfeldman$elm_css$VirtualDom$Styled$property,
+			key,
+			$elm$json$Json$Encode$bool(bool));
+	});
+var $rtfeldman$elm_css$Html$Styled$Attributes$checked = $rtfeldman$elm_css$Html$Styled$Attributes$boolProperty('checked');
 var $rtfeldman$elm_css$VirtualDom$Styled$Node = F3(
 	function (a, b, c) {
 		return {$: 0, a: a, b: b, c: c};
@@ -6836,6 +6934,93 @@ var $rtfeldman$elm_css$VirtualDom$Styled$Node = F3(
 var $rtfeldman$elm_css$VirtualDom$Styled$node = $rtfeldman$elm_css$VirtualDom$Styled$Node;
 var $rtfeldman$elm_css$Html$Styled$node = $rtfeldman$elm_css$VirtualDom$Styled$node;
 var $rtfeldman$elm_css$Html$Styled$div = $rtfeldman$elm_css$Html$Styled$node('div');
+var $rtfeldman$elm_css$Html$Styled$input = $rtfeldman$elm_css$Html$Styled$node('input');
+var $rtfeldman$elm_css$Html$Styled$Events$alwaysStop = function (x) {
+	return _Utils_Tuple2(x, true);
+};
+var $elm$virtual_dom$VirtualDom$MayStopPropagation = function (a) {
+	return {$: 1, a: a};
+};
+var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
+var $rtfeldman$elm_css$VirtualDom$Styled$on = F2(
+	function (eventName, handler) {
+		return A3(
+			$rtfeldman$elm_css$VirtualDom$Styled$Attribute,
+			A2($elm$virtual_dom$VirtualDom$on, eventName, handler),
+			false,
+			'');
+	});
+var $rtfeldman$elm_css$Html$Styled$Events$stopPropagationOn = F2(
+	function (event, decoder) {
+		return A2(
+			$rtfeldman$elm_css$VirtualDom$Styled$on,
+			event,
+			$elm$virtual_dom$VirtualDom$MayStopPropagation(decoder));
+	});
+var $elm$json$Json$Decode$field = _Json_decodeField;
+var $elm$json$Json$Decode$at = F2(
+	function (fields, decoder) {
+		return A3($elm$core$List$foldr, $elm$json$Json$Decode$field, decoder, fields);
+	});
+var $elm$json$Json$Decode$string = _Json_decodeString;
+var $rtfeldman$elm_css$Html$Styled$Events$targetValue = A2(
+	$elm$json$Json$Decode$at,
+	_List_fromArray(
+		['target', 'value']),
+	$elm$json$Json$Decode$string);
+var $rtfeldman$elm_css$Html$Styled$Events$onInput = function (tagger) {
+	return A2(
+		$rtfeldman$elm_css$Html$Styled$Events$stopPropagationOn,
+		'input',
+		A2(
+			$elm$json$Json$Decode$map,
+			$rtfeldman$elm_css$Html$Styled$Events$alwaysStop,
+			A2($elm$json$Json$Decode$map, tagger, $rtfeldman$elm_css$Html$Styled$Events$targetValue)));
+};
+var $rtfeldman$elm_css$VirtualDom$Styled$Unstyled = function (a) {
+	return {$: 4, a: a};
+};
+var $rtfeldman$elm_css$VirtualDom$Styled$text = function (str) {
+	return $rtfeldman$elm_css$VirtualDom$Styled$Unstyled(
+		$elm$virtual_dom$VirtualDom$text(str));
+};
+var $rtfeldman$elm_css$Html$Styled$text = $rtfeldman$elm_css$VirtualDom$Styled$text;
+var $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty = F2(
+	function (key, string) {
+		return A2(
+			$rtfeldman$elm_css$VirtualDom$Styled$property,
+			key,
+			$elm$json$Json$Encode$string(string));
+	});
+var $rtfeldman$elm_css$Html$Styled$Attributes$type_ = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('type');
+var $author$project$Main$checkBox = F3(
+	function (label, isChecked, event) {
+		return A2(
+			$rtfeldman$elm_css$Html$Styled$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$div,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text(label)
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$input,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Events$onInput(
+							function (_v0) {
+								return event;
+							}),
+							$rtfeldman$elm_css$Html$Styled$Attributes$type_('checkbox'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$checked(isChecked)
+						]),
+					_List_Nil)
+				]));
+	});
 var $rtfeldman$elm_css$Html$Styled$button = $rtfeldman$elm_css$Html$Styled$node('button');
 var $rtfeldman$elm_css$Css$Preprocess$AppendProperty = function (a) {
 	return {$: 0, a: a};
@@ -6853,19 +7038,6 @@ var $rtfeldman$elm_css$Css$margin = $rtfeldman$elm_css$Css$prop1('margin');
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 0, a: a};
 };
-var $rtfeldman$elm_css$VirtualDom$Styled$Attribute = F3(
-	function (a, b, c) {
-		return {$: 0, a: a, b: b, c: c};
-	});
-var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
-var $rtfeldman$elm_css$VirtualDom$Styled$on = F2(
-	function (eventName, handler) {
-		return A3(
-			$rtfeldman$elm_css$VirtualDom$Styled$Attribute,
-			A2($elm$virtual_dom$VirtualDom$on, eventName, handler),
-			false,
-			'');
-	});
 var $rtfeldman$elm_css$Html$Styled$Events$on = F2(
 	function (event, decoder) {
 		return A2(
@@ -6885,22 +7057,22 @@ var $elm$core$String$fromFloat = _String_fromNumber;
 var $rtfeldman$elm_css$Css$Internal$lengthConverter = F3(
 	function (units, unitLabel, numericValue) {
 		return {
-			ba: 0,
-			bj: 0,
-			ag: 0,
+			bb: 0,
+			bk: 0,
+			ah: 0,
 			l: 0,
-			aB: 0,
-			ak: 0,
-			G: 0,
+			aC: 0,
 			al: 0,
+			G: 0,
 			am: 0,
-			R: 0,
+			an: 0,
 			S: 0,
+			T: 0,
 			x: 0,
 			I: numericValue,
-			ar: 0,
-			at: unitLabel,
-			aK: units,
+			as: 0,
+			au: unitLabel,
+			aL: units,
 			A: _Utils_ap(
 				$elm$core$String$fromFloat(numericValue),
 				unitLabel)
@@ -6990,8 +7162,8 @@ var $rtfeldman$elm_css$Css$Structure$compactHelp = F2(
 					A2($elm$core$List$cons, declaration, declarations));
 			case 6:
 				var record = declaration.a;
-				return $elm$core$String$isEmpty(record.bY) ? _Utils_Tuple2(keyframesByName, declarations) : _Utils_Tuple2(
-					A3($elm$core$Dict$insert, record.b7, record.bY, keyframesByName),
+				return $elm$core$String$isEmpty(record.bZ) ? _Utils_Tuple2(keyframesByName, declarations) : _Utils_Tuple2(
+					A3($elm$core$Dict$insert, record.b8, record.bZ, keyframesByName),
 					declarations);
 			case 7:
 				var properties = declaration.a;
@@ -7019,14 +7191,6 @@ var $rtfeldman$elm_css$Css$Structure$compactHelp = F2(
 var $rtfeldman$elm_css$Css$Structure$Keyframes = function (a) {
 	return {$: 6, a: a};
 };
-var $elm$core$List$append = F2(
-	function (xs, ys) {
-		if (!ys.b) {
-			return xs;
-		} else {
-			return A3($elm$core$List$foldr, $elm$core$List$cons, ys, xs);
-		}
-	});
 var $rtfeldman$elm_css$Css$Structure$withKeyframeDeclarations = F2(
 	function (keyframesByName, compactedDeclarations) {
 		return A2(
@@ -7037,7 +7201,7 @@ var $rtfeldman$elm_css$Css$Structure$withKeyframeDeclarations = F2(
 					var name = _v0.a;
 					var decl = _v0.b;
 					return $rtfeldman$elm_css$Css$Structure$Keyframes(
-						{bY: decl, b7: name});
+						{bZ: decl, b8: name});
 				},
 				$elm$core$Dict$toList(keyframesByName)),
 			compactedDeclarations);
@@ -7053,15 +7217,15 @@ var $rtfeldman$elm_css$Css$Structure$compactDeclarations = function (declaration
 	return A2($rtfeldman$elm_css$Css$Structure$withKeyframeDeclarations, keyframesByName, compactedDeclarations);
 };
 var $rtfeldman$elm_css$Css$Structure$compactStylesheet = function (_v0) {
-	var charset = _v0.bl;
-	var imports = _v0.bs;
-	var namespaces = _v0.bx;
-	var declarations = _v0.bZ;
+	var charset = _v0.bm;
+	var imports = _v0.bt;
+	var namespaces = _v0.by;
+	var declarations = _v0.b_;
 	return {
-		bl: charset,
-		bZ: $rtfeldman$elm_css$Css$Structure$compactDeclarations(declarations),
-		bs: imports,
-		bx: namespaces
+		bm: charset,
+		b_: $rtfeldman$elm_css$Css$Structure$compactDeclarations(declarations),
+		bt: imports,
+		by: namespaces
 	};
 };
 var $elm$core$Maybe$map = F2(
@@ -7125,7 +7289,7 @@ var $rtfeldman$elm_css$Css$String$mapJoin = F3(
 		return A4($rtfeldman$elm_css$Css$String$mapJoinHelp, map, sep, strs, '');
 	});
 var $rtfeldman$elm_css$Css$Structure$Output$mediaExpressionToString = function (expression) {
-	return '(' + (expression.bp + (A2(
+	return '(' + (expression.bq + (A2(
 		$elm$core$Maybe$withDefault,
 		'',
 		A2(
@@ -7304,8 +7468,8 @@ var $rtfeldman$elm_css$Css$Structure$Output$prettyPrintDeclaration = function (d
 		case 5:
 			return 'TODO';
 		case 6:
-			var name = decl.a.b7;
-			var declaration = decl.a.bY;
+			var name = decl.a.b8;
+			var declaration = decl.a.bZ;
 			return '@keyframes ' + (name + ('{' + (declaration + '}')));
 		case 7:
 			return 'TODO';
@@ -7316,20 +7480,12 @@ var $rtfeldman$elm_css$Css$Structure$Output$prettyPrintDeclaration = function (d
 	}
 };
 var $rtfeldman$elm_css$Css$Structure$Output$prettyPrint = function (_v0) {
-	var charset = _v0.bl;
-	var imports = _v0.bs;
-	var namespaces = _v0.bx;
-	var declarations = _v0.bZ;
+	var charset = _v0.bm;
+	var imports = _v0.bt;
+	var namespaces = _v0.by;
+	var declarations = _v0.b_;
 	return $rtfeldman$elm_css$Css$Structure$Output$charsetToString(charset) + (A3($rtfeldman$elm_css$Css$String$mapJoin, $rtfeldman$elm_css$Css$Structure$Output$importToString, '\n', imports) + (A3($rtfeldman$elm_css$Css$String$mapJoin, $rtfeldman$elm_css$Css$Structure$Output$namespaceToString, '\n', namespaces) + (A3($rtfeldman$elm_css$Css$String$mapJoin, $rtfeldman$elm_css$Css$Structure$Output$prettyPrintDeclaration, '\n', declarations) + '')));
 };
-var $elm$core$List$concat = function (lists) {
-	return A3($elm$core$List$foldr, $elm$core$List$append, _List_Nil, lists);
-};
-var $elm$core$List$concatMap = F2(
-	function (f, list) {
-		return $elm$core$List$concat(
-			A2($elm$core$List$map, f, list));
-	});
 var $rtfeldman$elm_css$Css$Structure$CounterStyle = function (a) {
 	return {$: 8, a: a};
 };
@@ -8229,7 +8385,7 @@ var $rtfeldman$elm_css$Css$Preprocess$Resolve$applyStyles = F2(
 						_List_fromArray(
 							[
 								$rtfeldman$elm_css$Css$Structure$Keyframes(
-								{bY: str, b7: name})
+								{bZ: str, b8: name})
 							]));
 				case 4:
 					var _v12 = styles.a;
@@ -8363,13 +8519,13 @@ var $rtfeldman$elm_css$Css$Preprocess$Resolve$toDeclarations = function (snippet
 	}
 };
 var $rtfeldman$elm_css$Css$Preprocess$Resolve$toStructure = function (_v0) {
-	var charset = _v0.bl;
-	var imports = _v0.bs;
-	var namespaces = _v0.bx;
-	var snippets = _v0.bJ;
+	var charset = _v0.bm;
+	var imports = _v0.bt;
+	var namespaces = _v0.by;
+	var snippets = _v0.bK;
 	var declarations = $rtfeldman$elm_css$Css$Preprocess$Resolve$extract(
 		A2($elm$core$List$concatMap, $rtfeldman$elm_css$Css$Preprocess$unwrapSnippet, snippets));
-	return {bl: charset, bZ: declarations, bs: imports, bx: namespaces};
+	return {bm: charset, b_: declarations, bt: imports, by: namespaces};
 };
 var $rtfeldman$elm_css$Css$Preprocess$Resolve$compile = function (sheet) {
 	return $rtfeldman$elm_css$Css$Structure$Output$prettyPrint(
@@ -8394,7 +8550,7 @@ var $rtfeldman$elm_css$VirtualDom$Styled$makeSnippet = F2(
 			]);
 	});
 var $rtfeldman$elm_css$Css$Preprocess$stylesheet = function (snippets) {
-	return {bl: $elm$core$Maybe$Nothing, bs: _List_Nil, bx: _List_Nil, bJ: snippets};
+	return {bm: $elm$core$Maybe$Nothing, bt: _List_Nil, by: _List_Nil, bK: snippets};
 };
 var $rtfeldman$elm_css$Css$Structure$ClassSelector = function (a) {
 	return {$: 0, a: a};
@@ -8432,14 +8588,6 @@ var $rtfeldman$elm_css$Html$Styled$styled = F4(
 				attrs),
 			children);
 	});
-var $rtfeldman$elm_css$VirtualDom$Styled$Unstyled = function (a) {
-	return {$: 4, a: a};
-};
-var $rtfeldman$elm_css$VirtualDom$Styled$text = function (str) {
-	return $rtfeldman$elm_css$VirtualDom$Styled$Unstyled(
-		$elm$virtual_dom$VirtualDom$text(str));
-};
-var $rtfeldman$elm_css$Html$Styled$text = $rtfeldman$elm_css$VirtualDom$Styled$text;
 var $author$project$Main$drawButton = F2(
 	function (buttonText, msg) {
 		return A4(
@@ -8485,20 +8633,6 @@ var $author$project$Main$drawEndButton = A2(
 var $author$project$Main$ApplyClickButtonTypeOnCell = function (a) {
 	return {$: 2, a: a};
 };
-var $author$project$Utils$cartesianProduct = F2(
-	function (aitems, bitems) {
-		return A2(
-			$elm$core$List$concatMap,
-			function (a) {
-				return A2(
-					$elm$core$List$map,
-					function (b) {
-						return _Utils_Tuple2(a, b);
-					},
-					bitems);
-			},
-			aitems);
-	});
 var $rtfeldman$elm_css$Css$Preprocess$ApplyStyles = function (a) {
 	return {$: 6, a: a};
 };
@@ -8594,11 +8728,11 @@ var $rtfeldman$elm_css$Css$cssFunction = F2(
 var $rtfeldman$elm_css$Css$rgba = F4(
 	function (r, g, b, alpha) {
 		return {
-			aw: alpha,
-			ay: b,
+			ax: alpha,
+			az: b,
 			w: 0,
-			aA: g,
-			aF: r,
+			aB: g,
+			aG: r,
 			A: A2(
 				$rtfeldman$elm_css$Css$cssFunction,
 				'rgba',
@@ -8658,11 +8792,11 @@ var $author$project$Main$obstacleCell = function (attrs) {
 var $rtfeldman$elm_css$Css$rgb = F3(
 	function (r, g, b) {
 		return {
-			aw: 1,
-			ay: b,
+			ax: 1,
+			az: b,
 			w: 0,
-			aA: g,
-			aF: r,
+			aB: g,
+			aG: r,
 			A: A2(
 				$rtfeldman$elm_css$Css$cssFunction,
 				'rgb',
@@ -8724,7 +8858,7 @@ var $author$project$MyCss$styledGrid = function (width) {
 		$author$project$MyCss$gridContainer(width));
 };
 var $author$project$Main$drawGrid = function (model) {
-	var rowIds = A2($elm$core$List$range, 1, model.Q);
+	var rowIds = A2($elm$core$List$range, 1, model.R);
 	var renderCell = function (_v0) {
 		var rowId = _v0.a;
 		var colId = _v0.b;
@@ -8734,13 +8868,13 @@ var $author$project$Main$drawGrid = function (model) {
 			model.X) ? $author$project$Main$startCell : (_Utils_eq(
 			$elm$core$Maybe$Just(
 				_Utils_Tuple2(rowId, colId)),
-			model.N) ? $author$project$Main$endCell : (A2(
+			model.O) ? $author$project$Main$endCell : (A2(
 			$elm$core$Set$member,
 			_Utils_Tuple2(rowId, colId),
 			model.z) ? $author$project$Main$obstacleCell : (A2(
 			$elm$core$Set$member,
 			_Utils_Tuple2(rowId, colId),
-			model.U) ? $author$project$Main$pathCell : $author$project$Main$emptyCell)));
+			model.J) ? $author$project$Main$pathCell : $author$project$Main$emptyCell)));
 		return cell(
 			_List_fromArray(
 				[
@@ -8749,12 +8883,12 @@ var $author$project$Main$drawGrid = function (model) {
 						_Utils_Tuple2(rowId, colId)))
 				]));
 	};
-	var colIds = A2($elm$core$List$range, 1, model.M);
+	var colIds = A2($elm$core$List$range, 1, model.N);
 	var elements = A2(
 		$elm$core$List$map,
 		renderCell,
 		A2($author$project$Utils$cartesianProduct, rowIds, colIds));
-	return A3($author$project$MyCss$styledGrid, model.M, _List_Nil, elements);
+	return A3($author$project$MyCss$styledGrid, model.N, _List_Nil, elements);
 };
 var $author$project$Main$drawObstacleButton = A2(
 	$author$project$Main$drawButton,
@@ -8777,7 +8911,7 @@ var $author$project$Main$printCurrentClickButtonTypeMessage = function (model) {
 			[
 				$rtfeldman$elm_css$Html$Styled$text(
 				function () {
-					var _v0 = model.ad;
+					var _v0 = model.ae;
 					if (!_v0.$) {
 						var st = _v0.a;
 						return 'Click on grid cell to put ' + $author$project$Main$symbolTypeToString(st);
@@ -8787,58 +8921,8 @@ var $author$project$Main$printCurrentClickButtonTypeMessage = function (model) {
 				}())
 			]));
 };
-var $rtfeldman$elm_css$Html$Styled$input = $rtfeldman$elm_css$Html$Styled$node('input');
-var $rtfeldman$elm_css$VirtualDom$Styled$property = F2(
-	function (key, value) {
-		return A3(
-			$rtfeldman$elm_css$VirtualDom$Styled$Attribute,
-			A2($elm$virtual_dom$VirtualDom$property, key, value),
-			false,
-			'');
-	});
-var $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty = F2(
-	function (key, string) {
-		return A2(
-			$rtfeldman$elm_css$VirtualDom$Styled$property,
-			key,
-			$elm$json$Json$Encode$string(string));
-	});
 var $rtfeldman$elm_css$Html$Styled$Attributes$max = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('max');
 var $rtfeldman$elm_css$Html$Styled$Attributes$min = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('min');
-var $rtfeldman$elm_css$Html$Styled$Events$alwaysStop = function (x) {
-	return _Utils_Tuple2(x, true);
-};
-var $elm$virtual_dom$VirtualDom$MayStopPropagation = function (a) {
-	return {$: 1, a: a};
-};
-var $rtfeldman$elm_css$Html$Styled$Events$stopPropagationOn = F2(
-	function (event, decoder) {
-		return A2(
-			$rtfeldman$elm_css$VirtualDom$Styled$on,
-			event,
-			$elm$virtual_dom$VirtualDom$MayStopPropagation(decoder));
-	});
-var $elm$json$Json$Decode$field = _Json_decodeField;
-var $elm$json$Json$Decode$at = F2(
-	function (fields, decoder) {
-		return A3($elm$core$List$foldr, $elm$json$Json$Decode$field, decoder, fields);
-	});
-var $elm$json$Json$Decode$string = _Json_decodeString;
-var $rtfeldman$elm_css$Html$Styled$Events$targetValue = A2(
-	$elm$json$Json$Decode$at,
-	_List_fromArray(
-		['target', 'value']),
-	$elm$json$Json$Decode$string);
-var $rtfeldman$elm_css$Html$Styled$Events$onInput = function (tagger) {
-	return A2(
-		$rtfeldman$elm_css$Html$Styled$Events$stopPropagationOn,
-		'input',
-		A2(
-			$elm$json$Json$Decode$map,
-			$rtfeldman$elm_css$Html$Styled$Events$alwaysStop,
-			A2($elm$json$Json$Decode$map, tagger, $rtfeldman$elm_css$Html$Styled$Events$targetValue)));
-};
-var $rtfeldman$elm_css$Html$Styled$Attributes$type_ = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('type');
 var $rtfeldman$elm_css$Html$Styled$Attributes$value = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('value');
 var $author$project$Main$slider = F5(
 	function (label, labelValue, min, max, mkEvent) {
@@ -8917,15 +9001,16 @@ var $author$project$Main$view = function (model) {
 					[
 						A2($author$project$Main$drawButton, 'Reset', $author$project$Main$Reset)
 					])),
-				A5($author$project$Main$slider, 'Width', model.M, $author$project$Main$minWidth, $author$project$Main$maxWidth, $author$project$Main$SetWidth),
-				A5($author$project$Main$slider, 'Height', model.Q, $author$project$Main$minHeight, $author$project$Main$maxHeight, $author$project$Main$SetHeight)
+				A5($author$project$Main$slider, 'Width', model.N, $author$project$Main$minWidth, $author$project$Main$maxWidth, $author$project$Main$SetWidth),
+				A5($author$project$Main$slider, 'Height', model.R, $author$project$Main$minHeight, $author$project$Main$maxHeight, $author$project$Main$SetHeight),
+				A3($author$project$Main$checkBox, 'Allow Diagonal', model.aa, $author$project$Main$ToogleDiagonal)
 			]));
 };
 var $author$project$Main$main = $elm$browser$Browser$sandbox(
 	{
-		b4: A2($author$project$Main$initModel, $author$project$Main$minWidth, $author$project$Main$minHeight),
-		ch: $author$project$Main$update,
-		cj: A2($elm$core$Basics$composeR, $author$project$Main$view, $rtfeldman$elm_css$Html$Styled$toUnstyled)
+		b5: A2($author$project$Main$initModel, $author$project$Main$minWidth, $author$project$Main$minHeight),
+		ci: $author$project$Main$update,
+		ck: A2($elm$core$Basics$composeR, $author$project$Main$view, $rtfeldman$elm_css$Html$Styled$toUnstyled)
 	});
 _Platform_export({'Main':{'init':$author$project$Main$main(
 	$elm$json$Json$Decode$succeed(0))(0)}});}(this));
