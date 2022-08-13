@@ -63,6 +63,7 @@ type alias Model =
     , clickButtonType : ClickButtonType
     , width : Int
     , height : Int
+    , allowDiagonal : Bool
     }
 
 
@@ -74,6 +75,7 @@ type Msg
     | Reset
     | SetWidth Int
     | SetHeight Int
+    | ToogleDiagonal
 
 
 initModel : Int -> Int -> Model
@@ -85,6 +87,7 @@ initModel width height =
     , clickButtonType = ST Start
     , width = width
     , height = height
+    , allowDiagonal = False
     }
 
 
@@ -206,6 +209,19 @@ slider label labelValue min max mkEvent =
         ]
 
 
+checkBox : String -> Bool -> msg -> Html msg
+checkBox label isChecked event =
+    Html.div []
+        [ Html.div [] [ Html.text label ]
+        , Html.input
+            [ Events.onInput (\_ -> event)
+            , Attrs.type_ "checkbox"
+            , Attrs.checked isChecked
+            ]
+            []
+        ]
+
+
 view : Model -> Html Msg
 view model =
     Html.styled Html.div
@@ -225,6 +241,7 @@ view model =
         , Html.div [] [ drawButton "Reset" Reset ]
         , slider "Width" model.width minWidth maxWidth SetWidth
         , slider "Height" model.height minHeight maxHeight SetHeight
+        , checkBox "Allow Diagonal" model.allowDiagonal ToogleDiagonal
         ]
 
 
@@ -286,16 +303,33 @@ validCell model ( rowId, colId ) =
     rowId >= 1 && rowId <= model.height && colId >= 1 && colId <= model.width
 
 
-neighbors : ( Int, Int ) -> Set ( Int, Int )
-neighbors ( x, y ) =
+neighborsWithoutDiagonal : ( Int, Int ) -> Set ( Int, Int )
+neighborsWithoutDiagonal ( x, y ) =
     Set.fromList [ ( x + 1, y ), ( x - 1, y ), ( x, y - 1 ), ( x, y + 1 ) ]
 
 
+neighborsWithDiagonal : ( Int, Int ) -> Set ( Int, Int )
+neighborsWithDiagonal ( x, y ) =
+    Utils.cartesianProduct [ -1, 0, 1 ] [ -1, 0, 1 ]
+        |> List.map (\( dx, dy ) -> ( x + dx, y + dy ))
+        |> List.filter (\( nx, ny ) -> nx /= x || ny /= y)
+        |> Set.fromList
+
+
 validNeighbors : Model -> ( Int, Int ) -> Set ( Int, Int )
-validNeighbors model loc =
-    neighbors loc
-        |> Set.filter (validCell model)
-        |> Set.filter (\pos -> not (Set.member pos model.obstacles))
+validNeighbors model =
+    let
+        neighborFn =
+            if model.allowDiagonal then
+                neighborsWithDiagonal
+
+            else
+                neighborsWithoutDiagonal
+    in
+    \( x, y ) ->
+        neighborFn ( x, y )
+            |> Set.filter (validCell model)
+            |> Set.filter (\pos -> not (Set.member pos model.obstacles))
 
 
 withPathComputed : Model -> Model
@@ -331,6 +365,9 @@ update msg model =
 
         SetHeight height ->
             { model | height = height, path = Set.empty }
+
+        ToogleDiagonal ->
+            { model | allowDiagonal = not model.allowDiagonal, path = Set.empty }
 
 
 main : Program () Model Msg
