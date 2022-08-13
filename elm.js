@@ -784,11 +784,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.U.aB === region.M.aB)
+	if (region.X.aC === region.N.aC)
 	{
-		return 'on line ' + region.U.aB;
+		return 'on line ' + region.X.aC;
 	}
-	return 'on lines ' + region.U.aB + ' through ' + region.M.aB;
+	return 'on lines ' + region.X.aC + ' through ' + region.N.aC;
 }
 
 
@@ -4251,8 +4251,8 @@ function _Browser_getViewport()
 		bP: {
 			bQ: _Browser_window.pageXOffset,
 			bR: _Browser_window.pageYOffset,
-			as: _Browser_doc.documentElement.clientWidth,
-			az: _Browser_doc.documentElement.clientHeight
+			M: _Browser_doc.documentElement.clientWidth,
+			Q: _Browser_doc.documentElement.clientHeight
 		}
 	};
 }
@@ -4262,8 +4262,8 @@ function _Browser_getScene()
 	var body = _Browser_doc.body;
 	var elem = _Browser_doc.documentElement;
 	return {
-		as: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
-		az: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
+		M: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
+		Q: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
 	};
 }
 
@@ -4287,14 +4287,14 @@ function _Browser_getViewportOf(id)
 	{
 		return {
 			bI: {
-				as: node.scrollWidth,
-				az: node.scrollHeight
+				M: node.scrollWidth,
+				Q: node.scrollHeight
 			},
 			bP: {
 				bQ: node.scrollLeft,
 				bR: node.scrollTop,
-				as: node.clientWidth,
-				az: node.clientHeight
+				M: node.clientWidth,
+				Q: node.clientHeight
 			}
 		};
 	});
@@ -4328,14 +4328,14 @@ function _Browser_getElement(id)
 			bP: {
 				bQ: x,
 				bR: y,
-				as: _Browser_doc.documentElement.clientWidth,
-				az: _Browser_doc.documentElement.clientHeight
+				M: _Browser_doc.documentElement.clientWidth,
+				Q: _Browser_doc.documentElement.clientHeight
 			},
 			b$: {
 				bQ: x + rect.left,
 				bR: y + rect.top,
-				as: rect.width,
-				az: rect.height
+				M: rect.width,
+				Q: rect.height
 			}
 		};
 	});
@@ -4427,15 +4427,17 @@ var $elm$core$Set$empty = $elm$core$Dict$empty;
 var $author$project$Main$initModel = F2(
 	function (width, height) {
 		return {
-			aa: $author$project$Main$ST(0),
-			M: $elm$core$Maybe$Nothing,
-			az: height,
+			ad: $author$project$Main$ST(0),
+			N: $elm$core$Maybe$Nothing,
+			Q: height,
 			z: $elm$core$Set$empty,
-			aD: $elm$core$Set$empty,
-			U: $elm$core$Maybe$Nothing,
-			as: width
+			U: $elm$core$Set$empty,
+			X: $elm$core$Maybe$Nothing,
+			M: width
 		};
 	});
+var $author$project$Main$minHeight = 10;
+var $author$project$Main$minWidth = 10;
 var $elm$core$Basics$EQ = 1;
 var $elm$core$Basics$GT = 2;
 var $elm$core$Basics$LT = 0;
@@ -4936,7 +4938,7 @@ var $elm$url$Url$Http = 0;
 var $elm$url$Url$Https = 1;
 var $elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {bq: fragment, br: host, aD: path, bA: port_, bD: protocol, bE: query};
+		return {bq: fragment, br: host, U: path, bA: port_, bD: protocol, bE: query};
 	});
 var $elm$core$String$contains = _String_contains;
 var $elm$core$String$length = _String_length;
@@ -5239,7 +5241,7 @@ var $elm$browser$Browser$sandbox = function (impl) {
 var $elm$core$String$cons = _String_cons;
 var $robinheghan$murmur3$Murmur3$HashData = F4(
 	function (shift, seed, hash, charsProcessed) {
-		return {_: charsProcessed, ag: hash, T: seed, al: shift};
+		return {ac: charsProcessed, aj: hash, W: seed, ao: shift};
 	});
 var $robinheghan$murmur3$Murmur3$c1 = 3432918353;
 var $robinheghan$murmur3$Murmur3$c2 = 461845907;
@@ -5258,14 +5260,14 @@ var $robinheghan$murmur3$Murmur3$rotlBy = F2(
 	});
 var $elm$core$Bitwise$xor = _Bitwise_xor;
 var $robinheghan$murmur3$Murmur3$finalize = function (data) {
-	var acc = (!(!data.ag)) ? (data.T ^ A2(
+	var acc = (!(!data.aj)) ? (data.W ^ A2(
 		$robinheghan$murmur3$Murmur3$multiplyBy,
 		$robinheghan$murmur3$Murmur3$c2,
 		A2(
 			$robinheghan$murmur3$Murmur3$rotlBy,
 			15,
-			A2($robinheghan$murmur3$Murmur3$multiplyBy, $robinheghan$murmur3$Murmur3$c1, data.ag)))) : data.T;
-	var h0 = acc ^ data._;
+			A2($robinheghan$murmur3$Murmur3$multiplyBy, $robinheghan$murmur3$Murmur3$c1, data.aj)))) : data.W;
+	var h0 = acc ^ data.ac;
 	var h1 = A2($robinheghan$murmur3$Murmur3$multiplyBy, 2246822507, h0 ^ (h0 >>> 16));
 	var h2 = A2($robinheghan$murmur3$Murmur3$multiplyBy, 3266489909, h1 ^ (h1 >>> 13));
 	return (h2 ^ (h2 >>> 16)) >>> 0;
@@ -5289,17 +5291,17 @@ var $robinheghan$murmur3$Murmur3$mix = F2(
 	});
 var $robinheghan$murmur3$Murmur3$hashFold = F2(
 	function (c, data) {
-		var res = data.ag | ((255 & $elm$core$Char$toCode(c)) << data.al);
-		var _v0 = data.al;
+		var res = data.aj | ((255 & $elm$core$Char$toCode(c)) << data.ao);
+		var _v0 = data.ao;
 		if (_v0 === 24) {
 			return {
-				_: data._ + 1,
-				ag: 0,
-				T: A2($robinheghan$murmur3$Murmur3$mix, data.T, res),
-				al: 0
+				ac: data.ac + 1,
+				aj: 0,
+				W: A2($robinheghan$murmur3$Murmur3$mix, data.W, res),
+				ao: 0
 			};
 		} else {
-			return {_: data._ + 1, ag: res, T: data.T, al: data.al + 8};
+			return {ac: data.ac + 1, aj: res, W: data.W, ao: data.ao + 8};
 		}
 	});
 var $robinheghan$murmur3$Murmur3$hashString = F2(
@@ -6515,10 +6517,10 @@ var $author$project$Main$symbolTypeAtPosition = F2(
 		return _Utils_eq(
 			$elm$core$Maybe$Just(
 				_Utils_Tuple2(rowId, colId)),
-			model.U) ? $elm$core$Maybe$Just(0) : (_Utils_eq(
+			model.X) ? $elm$core$Maybe$Just(0) : (_Utils_eq(
 			$elm$core$Maybe$Just(
 				_Utils_Tuple2(rowId, colId)),
-			model.M) ? $elm$core$Maybe$Just(1) : (A2(
+			model.N) ? $elm$core$Maybe$Just(1) : (A2(
 			$elm$core$Set$member,
 			_Utils_Tuple2(rowId, colId),
 			model.z) ? $elm$core$Maybe$Just(2) : $elm$core$Maybe$Nothing));
@@ -6534,17 +6536,17 @@ var $author$project$Main$applyClickButtonTypeOnCell = F2(
 				_Utils_Tuple2(rowId, colId));
 			if (!_v1.$) {
 				var st = _v1.a;
-				var _v2 = model.aa;
+				var _v2 = model.ad;
 				if (_v2.$ === 1) {
 					switch (st) {
 						case 0:
 							return _Utils_update(
 								model,
-								{U: $elm$core$Maybe$Nothing});
+								{X: $elm$core$Maybe$Nothing});
 						case 1:
 							return _Utils_update(
 								model,
-								{M: $elm$core$Maybe$Nothing});
+								{N: $elm$core$Maybe$Nothing});
 						default:
 							return _Utils_update(
 								model,
@@ -6559,7 +6561,7 @@ var $author$project$Main$applyClickButtonTypeOnCell = F2(
 					return model;
 				}
 			} else {
-				var _v4 = model.aa;
+				var _v4 = model.ad;
 				if (!_v4.$) {
 					switch (_v4.a) {
 						case 0:
@@ -6567,7 +6569,7 @@ var $author$project$Main$applyClickButtonTypeOnCell = F2(
 							return _Utils_update(
 								model,
 								{
-									U: $elm$core$Maybe$Just(
+									X: $elm$core$Maybe$Just(
 										_Utils_Tuple2(rowId, colId))
 								});
 						case 1:
@@ -6575,7 +6577,7 @@ var $author$project$Main$applyClickButtonTypeOnCell = F2(
 							return _Utils_update(
 								model,
 								{
-									M: $elm$core$Maybe$Just(
+									N: $elm$core$Maybe$Just(
 										_Utils_Tuple2(rowId, colId))
 								});
 						default:
@@ -6596,7 +6598,7 @@ var $author$project$Main$applyClickButtonTypeOnCell = F2(
 		}();
 		return _Utils_update(
 			modelWithButtonApplied,
-			{aD: $elm$core$Set$empty});
+			{U: $elm$core$Set$empty});
 	});
 var $elm$core$Set$fromList = function (list) {
 	return A3($elm$core$List$foldl, $elm$core$Set$insert, $elm$core$Set$empty, list);
@@ -6757,7 +6759,7 @@ var $author$project$Main$validCell = F2(
 	function (model, _v0) {
 		var rowId = _v0.a;
 		var colId = _v0.b;
-		return (rowId >= 1) && ((_Utils_cmp(rowId, model.az) < 1) && ((colId >= 1) && (_Utils_cmp(colId, model.as) < 1)));
+		return (rowId >= 1) && ((_Utils_cmp(rowId, model.Q) < 1) && ((colId >= 1) && (_Utils_cmp(colId, model.M) < 1)));
 	});
 var $author$project$Main$validNeighbors = F2(
 	function (model, loc) {
@@ -6772,14 +6774,14 @@ var $author$project$Main$validNeighbors = F2(
 				$author$project$Main$neighbors(loc)));
 	});
 var $author$project$Main$withPathComputed = function (model) {
-	var _v0 = _Utils_Tuple2(model.U, model.M);
+	var _v0 = _Utils_Tuple2(model.X, model.N);
 	if ((!_v0.a.$) && (!_v0.b.$)) {
 		var s = _v0.a.a;
 		var e = _v0.b.a;
 		return _Utils_update(
 			model,
 			{
-				aD: $elm$core$Set$fromList(
+				U: $elm$core$Set$fromList(
 					A3(
 						$author$project$BFS$shortestPath,
 						s,
@@ -6796,21 +6798,37 @@ var $author$project$Main$update = F2(
 			case 0:
 				return model;
 			case 4:
-				return A2($author$project$Main$initModel, model.as, model.az);
+				return A2($author$project$Main$initModel, model.M, model.Q);
 			case 1:
 				var buttonType = msg.a;
 				return _Utils_update(
 					model,
-					{aa: buttonType});
+					{ad: buttonType});
 			case 2:
 				var pos = msg.a;
 				return A2($author$project$Main$applyClickButtonTypeOnCell, pos, model);
-			default:
+			case 3:
 				return $author$project$Main$withPathComputed(model);
+			case 5:
+				var width = msg.a;
+				return _Utils_update(
+					model,
+					{U: $elm$core$Set$empty, M: width});
+			default:
+				var height = msg.a;
+				return _Utils_update(
+					model,
+					{Q: height, U: $elm$core$Set$empty});
 		}
 	});
 var $author$project$Main$ComputePath = {$: 3};
 var $author$project$Main$Reset = {$: 4};
+var $author$project$Main$SetHeight = function (a) {
+	return {$: 6, a: a};
+};
+var $author$project$Main$SetWidth = function (a) {
+	return {$: 5, a: a};
+};
 var $rtfeldman$elm_css$VirtualDom$Styled$Node = F3(
 	function (a, b, c) {
 		return {$: 0, a: a, b: b, c: c};
@@ -6869,19 +6887,19 @@ var $rtfeldman$elm_css$Css$Internal$lengthConverter = F3(
 		return {
 			ba: 0,
 			bj: 0,
-			ad: 0,
+			ag: 0,
 			l: 0,
-			aA: 0,
-			ah: 0,
+			aB: 0,
+			ak: 0,
 			G: 0,
-			ai: 0,
-			aj: 0,
-			P: 0,
-			Q: 0,
+			al: 0,
+			am: 0,
+			R: 0,
+			S: 0,
 			x: 0,
 			I: numericValue,
-			ao: 0,
-			aq: unitLabel,
+			ar: 0,
+			at: unitLabel,
 			aK: units,
 			A: _Utils_ap(
 				$elm$core$String$fromFloat(numericValue),
@@ -8576,10 +8594,10 @@ var $rtfeldman$elm_css$Css$cssFunction = F2(
 var $rtfeldman$elm_css$Css$rgba = F4(
 	function (r, g, b, alpha) {
 		return {
-			au: alpha,
-			aw: b,
+			aw: alpha,
+			ay: b,
 			w: 0,
-			ay: g,
+			aA: g,
 			aF: r,
 			A: A2(
 				$rtfeldman$elm_css$Css$cssFunction,
@@ -8596,7 +8614,7 @@ var $rtfeldman$elm_css$Css$rgba = F4(
 						])))
 		};
 	});
-var $rtfeldman$elm_css$Css$solid = {n: 0, V: 0, A: 'solid'};
+var $rtfeldman$elm_css$Css$solid = {n: 0, Y: 0, A: 'solid'};
 var $rtfeldman$elm_css$Css$width = $rtfeldman$elm_css$Css$prop1('width');
 var $author$project$MyCss$gridItem = _List_fromArray(
 	[
@@ -8640,10 +8658,10 @@ var $author$project$Main$obstacleCell = function (attrs) {
 var $rtfeldman$elm_css$Css$rgb = F3(
 	function (r, g, b) {
 		return {
-			au: 1,
-			aw: b,
+			aw: 1,
+			ay: b,
 			w: 0,
-			ay: g,
+			aA: g,
 			aF: r,
 			A: A2(
 				$rtfeldman$elm_css$Css$cssFunction,
@@ -8706,23 +8724,23 @@ var $author$project$MyCss$styledGrid = function (width) {
 		$author$project$MyCss$gridContainer(width));
 };
 var $author$project$Main$drawGrid = function (model) {
-	var rowIds = A2($elm$core$List$range, 1, model.az);
+	var rowIds = A2($elm$core$List$range, 1, model.Q);
 	var renderCell = function (_v0) {
 		var rowId = _v0.a;
 		var colId = _v0.b;
 		var cell = _Utils_eq(
 			$elm$core$Maybe$Just(
 				_Utils_Tuple2(rowId, colId)),
-			model.U) ? $author$project$Main$startCell : (_Utils_eq(
+			model.X) ? $author$project$Main$startCell : (_Utils_eq(
 			$elm$core$Maybe$Just(
 				_Utils_Tuple2(rowId, colId)),
-			model.M) ? $author$project$Main$endCell : (A2(
+			model.N) ? $author$project$Main$endCell : (A2(
 			$elm$core$Set$member,
 			_Utils_Tuple2(rowId, colId),
 			model.z) ? $author$project$Main$obstacleCell : (A2(
 			$elm$core$Set$member,
 			_Utils_Tuple2(rowId, colId),
-			model.aD) ? $author$project$Main$pathCell : $author$project$Main$emptyCell)));
+			model.U) ? $author$project$Main$pathCell : $author$project$Main$emptyCell)));
 		return cell(
 			_List_fromArray(
 				[
@@ -8731,12 +8749,12 @@ var $author$project$Main$drawGrid = function (model) {
 						_Utils_Tuple2(rowId, colId)))
 				]));
 	};
-	var colIds = A2($elm$core$List$range, 1, model.as);
+	var colIds = A2($elm$core$List$range, 1, model.M);
 	var elements = A2(
 		$elm$core$List$map,
 		renderCell,
 		A2($author$project$Utils$cartesianProduct, rowIds, colIds));
-	return A3($author$project$MyCss$styledGrid, model.as, _List_Nil, elements);
+	return A3($author$project$MyCss$styledGrid, model.M, _List_Nil, elements);
 };
 var $author$project$Main$drawObstacleButton = A2(
 	$author$project$Main$drawButton,
@@ -8748,6 +8766,8 @@ var $author$project$Main$drawStartButton = A2(
 	$author$project$Main$symbolTypeToString(0),
 	$author$project$Main$SwitchClickButtonType(
 		$author$project$Main$ST(0)));
+var $author$project$Main$maxHeight = 50;
+var $author$project$Main$maxWidth = 50;
 var $rtfeldman$elm_css$Css$padding = $rtfeldman$elm_css$Css$prop1('padding');
 var $author$project$Main$printCurrentClickButtonTypeMessage = function (model) {
 	return A2(
@@ -8757,7 +8777,7 @@ var $author$project$Main$printCurrentClickButtonTypeMessage = function (model) {
 			[
 				$rtfeldman$elm_css$Html$Styled$text(
 				function () {
-					var _v0 = model.aa;
+					var _v0 = model.ad;
 					if (!_v0.$) {
 						var st = _v0.a;
 						return 'Click on grid cell to put ' + $author$project$Main$symbolTypeToString(st);
@@ -8767,6 +8787,97 @@ var $author$project$Main$printCurrentClickButtonTypeMessage = function (model) {
 				}())
 			]));
 };
+var $rtfeldman$elm_css$Html$Styled$input = $rtfeldman$elm_css$Html$Styled$node('input');
+var $rtfeldman$elm_css$VirtualDom$Styled$property = F2(
+	function (key, value) {
+		return A3(
+			$rtfeldman$elm_css$VirtualDom$Styled$Attribute,
+			A2($elm$virtual_dom$VirtualDom$property, key, value),
+			false,
+			'');
+	});
+var $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty = F2(
+	function (key, string) {
+		return A2(
+			$rtfeldman$elm_css$VirtualDom$Styled$property,
+			key,
+			$elm$json$Json$Encode$string(string));
+	});
+var $rtfeldman$elm_css$Html$Styled$Attributes$max = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('max');
+var $rtfeldman$elm_css$Html$Styled$Attributes$min = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('min');
+var $rtfeldman$elm_css$Html$Styled$Events$alwaysStop = function (x) {
+	return _Utils_Tuple2(x, true);
+};
+var $elm$virtual_dom$VirtualDom$MayStopPropagation = function (a) {
+	return {$: 1, a: a};
+};
+var $rtfeldman$elm_css$Html$Styled$Events$stopPropagationOn = F2(
+	function (event, decoder) {
+		return A2(
+			$rtfeldman$elm_css$VirtualDom$Styled$on,
+			event,
+			$elm$virtual_dom$VirtualDom$MayStopPropagation(decoder));
+	});
+var $elm$json$Json$Decode$field = _Json_decodeField;
+var $elm$json$Json$Decode$at = F2(
+	function (fields, decoder) {
+		return A3($elm$core$List$foldr, $elm$json$Json$Decode$field, decoder, fields);
+	});
+var $elm$json$Json$Decode$string = _Json_decodeString;
+var $rtfeldman$elm_css$Html$Styled$Events$targetValue = A2(
+	$elm$json$Json$Decode$at,
+	_List_fromArray(
+		['target', 'value']),
+	$elm$json$Json$Decode$string);
+var $rtfeldman$elm_css$Html$Styled$Events$onInput = function (tagger) {
+	return A2(
+		$rtfeldman$elm_css$Html$Styled$Events$stopPropagationOn,
+		'input',
+		A2(
+			$elm$json$Json$Decode$map,
+			$rtfeldman$elm_css$Html$Styled$Events$alwaysStop,
+			A2($elm$json$Json$Decode$map, tagger, $rtfeldman$elm_css$Html$Styled$Events$targetValue)));
+};
+var $rtfeldman$elm_css$Html$Styled$Attributes$type_ = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('type');
+var $rtfeldman$elm_css$Html$Styled$Attributes$value = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('value');
+var $author$project$Main$slider = F5(
+	function (label, labelValue, min, max, mkEvent) {
+		return A2(
+			$rtfeldman$elm_css$Html$Styled$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$div,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text(
+							label + (': ' + $elm$core$String$fromInt(labelValue)))
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$input,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Events$onInput(
+							function (x) {
+								return mkEvent(
+									A2(
+										$elm$core$Maybe$withDefault,
+										0,
+										$elm$core$String$toInt(x)));
+							}),
+							$rtfeldman$elm_css$Html$Styled$Attributes$type_('range'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$value(
+							$elm$core$String$fromInt(labelValue)),
+							$rtfeldman$elm_css$Html$Styled$Attributes$min(
+							$elm$core$String$fromInt(min)),
+							$rtfeldman$elm_css$Html$Styled$Attributes$max(
+							$elm$core$String$fromInt(max))
+						]),
+					_List_Nil)
+				]));
+	});
 var $author$project$Main$view = function (model) {
 	return A4(
 		$rtfeldman$elm_css$Html$Styled$styled,
@@ -8805,12 +8916,14 @@ var $author$project$Main$view = function (model) {
 				_List_fromArray(
 					[
 						A2($author$project$Main$drawButton, 'Reset', $author$project$Main$Reset)
-					]))
+					])),
+				A5($author$project$Main$slider, 'Width', model.M, $author$project$Main$minWidth, $author$project$Main$maxWidth, $author$project$Main$SetWidth),
+				A5($author$project$Main$slider, 'Height', model.Q, $author$project$Main$minHeight, $author$project$Main$maxHeight, $author$project$Main$SetHeight)
 			]));
 };
 var $author$project$Main$main = $elm$browser$Browser$sandbox(
 	{
-		b4: A2($author$project$Main$initModel, 10, 10),
+		b4: A2($author$project$Main$initModel, $author$project$Main$minWidth, $author$project$Main$minHeight),
 		ch: $author$project$Main$update,
 		cj: A2($elm$core$Basics$composeR, $author$project$Main$view, $rtfeldman$elm_css$Html$Styled$toUnstyled)
 	});

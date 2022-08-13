@@ -4,10 +4,31 @@ import BFS
 import Browser
 import Css
 import Html.Styled as Html exposing (Html)
+import Html.Styled.Attributes as Attrs
 import Html.Styled.Events as Events
 import MyCss
 import Set exposing (Set)
 import Utils
+
+
+minWidth : Int
+minWidth =
+    10
+
+
+maxWidth : Int
+maxWidth =
+    50
+
+
+minHeight : Int
+minHeight =
+    10
+
+
+maxHeight : Int
+maxHeight =
+    50
 
 
 type SybmolType
@@ -51,6 +72,8 @@ type Msg
     | ApplyClickButtonTypeOnCell ( Int, Int )
     | ComputePath
     | Reset
+    | SetWidth Int
+    | SetHeight Int
 
 
 initModel : Int -> Int -> Model
@@ -168,6 +191,21 @@ printCurrentClickButtonTypeMessage model =
         ]
 
 
+slider : String -> Int -> Int -> Int -> (Int -> msg) -> Html msg
+slider label labelValue min max mkEvent =
+    Html.div []
+        [ Html.div [] [ Html.text (label ++ ": " ++ String.fromInt labelValue) ]
+        , Html.input
+            [ Events.onInput (\x -> String.toInt x |> Maybe.withDefault 0 |> mkEvent)
+            , Attrs.type_ "range"
+            , Attrs.value (String.fromInt labelValue)
+            , Attrs.min (String.fromInt min)
+            , Attrs.max (String.fromInt max)
+            ]
+            []
+        ]
+
+
 view : Model -> Html Msg
 view model =
     Html.styled Html.div
@@ -185,6 +223,8 @@ view model =
         , printCurrentClickButtonTypeMessage model
         , Html.div [] [ drawButton "Compute Path" ComputePath ]
         , Html.div [] [ drawButton "Reset" Reset ]
+        , slider "Width" model.width minWidth maxWidth SetWidth
+        , slider "Height" model.height minHeight maxHeight SetHeight
         ]
 
 
@@ -286,11 +326,17 @@ update msg model =
         ComputePath ->
             withPathComputed model
 
+        SetWidth width ->
+            { model | width = width, path = Set.empty }
+
+        SetHeight height ->
+            { model | height = height, path = Set.empty }
+
 
 main : Program () Model Msg
 main =
     Browser.sandbox
         { view = view >> Html.toUnstyled
         , update = update
-        , init = initModel 10 10
+        , init = initModel minWidth minHeight
         }
